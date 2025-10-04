@@ -1,6 +1,6 @@
 name: speech_to_text_ultra
 description: "Introducing a Flutter package solving sudden pauses during speech recognition. Manual pause/play allows uninterrupted dictation, enhancing user experience for seamless interaction."
-version: 0.0.4
+version: 0.0.5
 homepage: https://github.com/souvik2710/speech_to_text_ultra
 
 environment:
@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  permission_handler: ^12.0.1
   speech_to_text: ^7.3.0
 
 dev_dependencies:

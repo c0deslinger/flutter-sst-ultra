@@ -1,3 +1,4 @@
+import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter/material.dart';
 
@@ -70,6 +71,7 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
     debugPrint('liveResponse $liveResponse');
     debugPrint('entireResponse $entireResponse');
     debugPrint('is null ${speech == null}');
+    await Permission.microphone.request();
     // speech = SpeechToText();
     bool available = await speech.initialize(
       onStatus: (status) async {
@@ -93,6 +95,7 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
     );
 
     if (available) {
+      debugPrint('AVAILABLE');
       setState(() {
         isListening = true;
         liveResponse = '';
