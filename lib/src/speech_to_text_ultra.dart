@@ -38,6 +38,19 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
   void initState() {
     super.initState();
     speech = SpeechToText();
+    _initializeSpeech();
+  }
+
+  void _initializeSpeech() async {
+    bool available = await speech.initialize(
+      onStatus: (status) {
+        debugPrint('Initialization status: $status');
+      },
+      onError: (errorNotification) {
+        debugPrint('Initialization error: ${errorNotification.errorMsg}');
+      },
+    );
+    debugPrint('Speech recognition available: $available');
   }
 
   @override
@@ -70,7 +83,12 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
     debugPrint('liveResponse $liveResponse');
     debugPrint('entireResponse $entireResponse');
     debugPrint('is null ${speech == null}');
-    speech = SpeechToText();
+
+    // Check if speech is already initialized
+    if (speech == null) {
+      speech = SpeechToText();
+    }
+
     bool available = await speech.initialize(
       onStatus: (status) async {
         debugPrint('onStatus ${status}');
@@ -89,6 +107,13 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
           });
           startListening();
         }
+      },
+      onError: (errorNotification) {
+        debugPrint('Speech recognition error: ${errorNotification.errorMsg}');
+        setState(() {
+          isListening = false;
+          widget.ultraCallback(liveResponse, entireResponse, isListening);
+        });
       },
     );
 
@@ -114,6 +139,14 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
       );
     } else {
       debugPrint('Ultra Speech ERROR : Speech recognition not available');
+      // Show user-friendly error message
+      setState(() {
+        isListening = false;
+        widget.ultraCallback(
+            'Speech recognition not available. Please check microphone permissions.',
+            entireResponse,
+            isListening);
+      });
     }
   }
 

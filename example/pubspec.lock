@@ -250,7 +250,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "213318d6521768eac73066e612dff35fc86800dd"
+      resolved-ref: "734714a0320c32beb31ae597f893694915772d7e"
       url: "https://github.com/c0deslinger/flutter-sst-ultra.git"
     source: git
     version: "0.0.5"
