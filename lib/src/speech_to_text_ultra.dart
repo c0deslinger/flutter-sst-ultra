@@ -1,4 +1,3 @@
-import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:flutter/material.dart';
 
@@ -71,26 +70,25 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
     debugPrint('liveResponse $liveResponse');
     debugPrint('entireResponse $entireResponse');
     debugPrint('is null ${speech == null}');
-    await Permission.microphone.request();
-    // speech = SpeechToText();
+    speech = SpeechToText();
     bool available = await speech.initialize(
       onStatus: (status) async {
         debugPrint('onStatus ${status}');
         debugPrint(
             'Speech recognition status: $status AND is LISTENING STATUS ${isListening}');
-        // if ((status == "done" || status == "notListening") && isListening) {
-        //   await speech.stop();
-        //   setState(() {
-        //     if (chunkResponse != '') {
-        //       entireResponse = '$entireResponse $chunkResponse';
-        //     }
-        //     chunkResponse = '';
-        //     liveResponse = '';
-        //     //MAIN CALLBACK HAPPENS
-        //     widget.ultraCallback(liveResponse, entireResponse, isListening);
-        //   });
-        //   startListening();
-        // }
+        if ((status == "done" || status == "notListening") && isListening) {
+          await speech.stop();
+          setState(() {
+            if (chunkResponse != '') {
+              entireResponse = '$entireResponse $chunkResponse';
+            }
+            chunkResponse = '';
+            liveResponse = '';
+            //MAIN CALLBACK HAPPENS
+            widget.ultraCallback(liveResponse, entireResponse, isListening);
+          });
+          startListening();
+        }
       },
     );
 
