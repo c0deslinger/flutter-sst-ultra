@@ -64,25 +64,31 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
   }
 
   void startListening() async {
-    debugPrint('START LISTENING');
+    debugPrint('START LISTENING ');
+    debugPrint('isListening $isListening');
+    debugPrint('chunkResponse $chunkResponse');
+    debugPrint('liveResponse $liveResponse');
+    debugPrint('entireResponse $entireResponse');
+    debugPrint('is null ${speech == null}');
     // speech = SpeechToText();
     bool available = await speech.initialize(
       onStatus: (status) async {
-        print(
+        debugPrint('onStatus ${status}');
+        debugPrint(
             'Speech recognition status: $status AND is LISTENING STATUS ${isListening}');
-        if ((status == "done" || status == "notListening") && isListening) {
-          await speech.stop();
-          setState(() {
-            if (chunkResponse != '') {
-              entireResponse = '$entireResponse $chunkResponse';
-            }
-            chunkResponse = '';
-            liveResponse = '';
-            //MAIN CALLBACK HAPPENS
-            widget.ultraCallback(liveResponse, entireResponse, isListening);
-          });
-          startListening();
-        }
+        // if ((status == "done" || status == "notListening") && isListening) {
+        //   await speech.stop();
+        //   setState(() {
+        //     if (chunkResponse != '') {
+        //       entireResponse = '$entireResponse $chunkResponse';
+        //     }
+        //     chunkResponse = '';
+        //     liveResponse = '';
+        //     //MAIN CALLBACK HAPPENS
+        //     widget.ultraCallback(liveResponse, entireResponse, isListening);
+        //   });
+        //   startListening();
+        // }
       },
     );
 
