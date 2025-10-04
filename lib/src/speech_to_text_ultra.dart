@@ -47,14 +47,14 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
           ? IconButton(
               iconSize: widget.pauseIconSize,
               icon: widget.toPauseIcon!,
-              color: widget.pauseIconColor,
+              color: Colors.red,
               onPressed: () {
                 stopListening();
               },
             )
           : IconButton(
               iconSize: widget.startIconSize,
-              color: widget.startIconColor,
+              color: Colors.green,
               icon: widget.toStartIcon!,
               onPressed: () {
                 startListening();
@@ -64,10 +64,12 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
   }
 
   void startListening() async {
+    debugPrint('START LISTENING');
     // speech = SpeechToText();
     bool available = await speech.initialize(
       onStatus: (status) async {
-        // print('Speech recognition status: $status AND is LISTENING STATUS ${isListening}');
+        print(
+            'Speech recognition status: $status AND is LISTENING STATUS ${isListening}');
         if ((status == "done" || status == "notListening") && isListening) {
           await speech.stop();
           setState(() {
@@ -109,6 +111,7 @@ class _SpeechToTextUltraState extends State<SpeechToTextUltra> {
   }
 
   void stopListening() {
+    print('STOP LISTENING');
     speech.stop();
     setState(() {
       isListening = false;
